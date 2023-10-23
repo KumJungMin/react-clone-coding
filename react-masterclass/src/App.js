@@ -21,14 +21,27 @@ const Circle = styled(Box)`
   border-radius: 50%;
 `;
 
+const Btn = styled.button`
+  color: white;
+  background-color: blue;
+  border: 0;
+  border-radius: 5px;
+`;
+
 function App() {
   return (
-    <Father>
+    <Father as="header">
+      {/* as="header"를 사용하면 header태그로 변환된다. */}
       <Box bgColor="teal">
         <Text>안녕!</Text>
       </Box>
       <Box bgColor="tomato" />
       <Circle bgColor="tomato" />
+      <Btn>안녕</Btn>
+      <Btn as="a" href="/">
+        안녕
+        {/* as="a"를 사용하면 a태그로 변환된다. */}
+      </Btn>
     </Father>
   );
 }
