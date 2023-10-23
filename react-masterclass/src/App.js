@@ -16,6 +16,11 @@ const Text = styled.span`
   color: blue;
 `;
 
+// 다른 스타일 컴포넌트의 스타일을 사용하고 싶다면, 컴포넌트를 호출해준다.(styled(컴포넌트명))
+const Circle = styled(Box)`
+  border-radius: 50%;
+`;
+
 function App() {
   return (
     <Father>
@@ -23,6 +28,7 @@ function App() {
         <Text>안녕!</Text>
       </Box>
       <Box bgColor="tomato" />
+      <Circle bgColor="tomato" />
     </Father>
   );
 }
