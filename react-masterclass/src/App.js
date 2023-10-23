@@ -28,6 +28,11 @@ const Btn = styled.button`
   border-radius: 5px;
 `;
 
+// styled components에 attrs로 html 속성을 지정할 수 있다
+const Input = styled.input.attrs({ required: true })`
+  border: 1px solid #ccc;
+`;
+
 function App() {
   return (
     <Father as="header">
@@ -42,6 +47,10 @@ function App() {
         안녕
         {/* as="a"를 사용하면 a태그로 변환된다. */}
       </Btn>
+      <Input />
+      <Input />
+      <Input />
+      <Input />
     </Father>
   );
 }
