@@ -5,16 +5,13 @@ import styled from "styled-components";
 const Father = styled.div`
   display: flex;
 `;
-const BoxOne = styled.div`
+// 배경색만 다른 박스를 만들고 싶다면? props를 사용한다.
+const Box = styled.div`
   width: 100px;
   height: 100px;
-  background-color: red;
+  background-color: ${(props) => props.bgColor};
 `;
-const BoxTwo = styled.div`
-  width: 100px;
-  height: 100px;
-  background-color: blue;
-`;
+
 const Text = styled.span`
   color: blue;
 `;
@@ -22,10 +19,10 @@ const Text = styled.span`
 function App() {
   return (
     <Father>
-      <BoxOne>
+      <Box bgColor="teal">
         <Text>안녕!</Text>
-      </BoxOne>
-      <BoxTwo />
+      </Box>
+      <Box bgColor="tomato" />
     </Father>
   );
 }
