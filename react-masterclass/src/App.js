@@ -14,6 +14,7 @@ const animation = keyframes`
 
 const Wrapper = styled.div`
   display: flex;
+  background-color: ${(props) => props.theme.backgroundColor};
 `;
 const Emoji = styled.span`
   font-size: 30px;
@@ -33,10 +34,15 @@ const Box = styled.div`
     }
   }
 `;
+const Title = styled.h1`
+  font-size: 50px;
+  color: ${(props) => props.theme.textColor};
+`;
 
 function App() {
   return (
     <Wrapper>
+      <Title>Hello</Title>
       <Emoji>🌞</Emoji>
       <Box>
         <Emoji>🌞</Emoji>
