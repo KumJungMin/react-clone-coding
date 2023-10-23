@@ -15,6 +15,9 @@ const animation = keyframes`
 const Wrapper = styled.div`
   display: flex;
 `;
+const Emoji = styled.span`
+  font-size: 30px;
+`;
 const Box = styled.div`
   width: 50px;
   height: 50px;
@@ -23,9 +26,8 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  // 스타일 컴포넌트의 자식 요소(span 태그)에 스타일을 적용할 수 있다.
-  span {
-    font-size: 30px;
+  // 스타일 컴포넌트 태그에 접근해서 스타일 변경이 가능(Box안의 Emoji에만 스타일 적용)
+  ${Emoji} {
     &:hover {
       font-size: 40px;
     }
@@ -35,8 +37,9 @@ const Box = styled.div`
 function App() {
   return (
     <Wrapper>
+      <Emoji>🌞</Emoji>
       <Box>
-        <span>🌞</span>
+        <Emoji>🌞</Emoji>
       </Box>
     </Wrapper>
   );
