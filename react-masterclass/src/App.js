@@ -20,12 +20,24 @@ const Box = styled.div`
   height: 50px;
   background-color: tomato;
   animation: ${animation} 1s linear infinite alternate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // 스타일 컴포넌트의 자식 요소(span 태그)에 스타일을 적용할 수 있다.
+  span {
+    font-size: 30px;
+    &:hover {
+      font-size: 40px;
+    }
+  }
 `;
 
 function App() {
   return (
     <Wrapper>
-      <Box />
+      <Box>
+        <span>🌞</span>
+      </Box>
     </Wrapper>
   );
 }
