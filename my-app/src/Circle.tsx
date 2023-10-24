@@ -6,7 +6,7 @@ interface ContainerProps {
 }
 // props의 타입을 정의해야함
 interface CircleProps {
-  bgColor: string;
+  bgColor?: string;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -16,7 +16,7 @@ const Container = styled.div<ContainerProps>`
   background-color: ${(props) => props.bgColor};
 `;
 
-function Circle({ bgColor }: CircleProps) {
+function Circle({ bgColor = 'blue' }: CircleProps) {
   return <Container bgColor={bgColor}></Container>
 }
 
