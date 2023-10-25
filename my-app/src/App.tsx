@@ -1,30 +1,9 @@
-import  { useState } from 'react';
-import styled from "styled-components";
-
 function App() {
-  const [value, setValue] = useState("");
-  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
-    // react에서는 이벤트값을 target이 아닌 currentTarget으로 받는다.
-    const {currentTarget: {value}} = event;
-    setValue(value);
-  }
-  // "React.이벤트종류<이벤트를 발생시키는 element>" 형식으로 이벤트 타입 지정
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(value);
-  }
-  const Container = styled.div`
-  background-color: ${props => props.theme.bgColor};
-  `;
-
   return (
     <div>
-      <form onSubmit={onSubmit}>
-        <input value={value} type="text" placeholder="username" onChange={onChange}/>
-        <button>Log in</button>
-      </form>
+      <h1>My App</h1>
     </div>
-  );
+  );  
 }
 
 export default App;
