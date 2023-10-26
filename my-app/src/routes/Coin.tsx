@@ -1,6 +1,7 @@
 import { useLocation, useParams, Switch, Route, useRouteMatch, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
+import { fetchCoinInfo, fetchCoinTickers } from "../apis/coin";
 
 import Chart from "./Chart";
 import Price from "./Price";
@@ -44,6 +45,7 @@ const Overview = styled.div`
 `;
 
 const OverviewItem = styled.div`
+  width: 33%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,6 +80,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   color: ${(props) => props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
+    padding: 7px 0px;
   }
 `;
 
@@ -150,38 +153,23 @@ interface PriceData {
 
 
 function Coin() { 
-  const [loading, setLoading] = useState(true);
-  // useParams는 URL의 파라미터를 가져온다.
   const { coinId } = useParams<RouteParams>(); 
-
   // useLocation은 현재 URL의 정보를 가져온다.(route state를 가져올 수 있음)
   const { state } = useLocation<RouteState>();
-  const [info, setInfo] = useState<InfoData>();
-  const [price, setPrice] = useState<PriceData>();
-
+  
   // useRouteMatch는 인자(path)와 일차하는 URL의 정보를 가져온다.
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
 
-  // useEffect는 vue의 watch와 비슷하다.
-  useEffect(() => {
-    (async () => {
-      const info = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ).json();
-      const price = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ).json();
-      setInfo(info);
-      setPrice(price);
-      setLoading(false);
-    })();
-  }, [coinId]);  // coinId가 바뀔 때마다 useEffect가 실행된다.
+  const { isLoading: infoLoading, data:infoData } = useQuery<InfoData>(["coinInfo", coinId], () => fetchCoinInfo(coinId));
+  const { isLoading: tickersLoading, data:tickersData } = useQuery<PriceData>(["coinTickers", coinId], () => fetchCoinTickers(coinId));
+
+  const loading = infoLoading || tickersLoading;
 
   return (<Container>
       <Header>
         <Title>
-          {state?.name ? state.name : loading ? "Loading..." : info?.name}
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
       </Header>
       {loading ? (
@@ -191,26 +179,26 @@ function Coin() {
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
-              <span>{info?.rank}</span>
+              <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>${info?.symbol}</span>
+              <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Open Source:</span>
-              <span>{info?.open_source ? "Yes" : "No"}</span>
+              <span>{infoData?.open_source ? "Yes" : "No"}</span>
             </OverviewItem>
           </Overview>
-          <Description>{info?.description}</Description>
+          <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
               <span>Total Suply:</span>
-              <span>{price?.total_supply}</span>
+              <span>{tickersData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Max Supply:</span>
-              <span>{price?.max_supply}</span>
+              <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
 

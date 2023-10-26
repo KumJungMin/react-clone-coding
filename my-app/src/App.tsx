@@ -1,5 +1,7 @@
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
+import { ReactQueryDevtools } from "react-query/devtools";
+// ReactQueryDevtools는 react-query의 개발자 도구이다.
 
 const GlobalStyle = createGlobalStyle`
 import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&display=swap');
@@ -70,6 +72,7 @@ function App() {
     <div>
       <GlobalStyle />
       <Router />
+      <ReactQueryDevtools initialIsOpen={false} />
     </div>
   );  
 }
