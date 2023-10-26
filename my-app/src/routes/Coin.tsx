@@ -1,6 +1,7 @@
 import { useLocation, useParams, Switch, Route, useRouteMatch, Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import styled from "styled-components";
+import { Helmet } from "react-helmet";
 import { fetchCoinInfo, fetchCoinTickers } from "../apis/coin";
 
 import Chart from "./Chart";
@@ -162,16 +163,22 @@ function Coin() {
   const chartMatch = useRouteMatch("/:coinId/chart");
 
   const { isLoading: infoLoading, data:infoData } = useQuery<InfoData>(["coinInfo", coinId], () => fetchCoinInfo(coinId));
-  const { isLoading: tickersLoading, data:tickersData } = useQuery<PriceData>(["coinTickers", coinId], () => fetchCoinTickers(coinId));
+  const { isLoading: tickersLoading, data:tickersData } = useQuery<PriceData>(["coinTickers", coinId], 
+  () => fetchCoinTickers(coinId),
+  { refetchInterval: 5000 }
+  );
 
   const loading = infoLoading || tickersLoading;
 
-  return (<Container>
+  return (
+  <Container>
+    <Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
       </Header>
+    </Helmet>
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -186,8 +193,8 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>Price:</span>
+              <span>${ tickersData?.quotes.USD.price.toFixed(3) }</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -221,7 +228,7 @@ function Coin() {
               <Price />
             </Route>
             <Route path={`:coinId/chart`}>
-              <Chart />
+              <Chart coinId={coinId}/>
             </Route>
           </Switch>
         </>

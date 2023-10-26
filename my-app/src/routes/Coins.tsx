@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet"; 
+// Helmet은 리액트 앱의 head태그를 수정할 수 있게 해주는 라이브러리
+
 import { fetchCoins } from "../apis/coin";
 
 const Container = styled.div`
@@ -70,6 +73,9 @@ function Coins() {
 
   return (
     <Container>
+      <Helmet>
+        <title>코인</title>
+      </Helmet>
       <Header>
         <Title>코인</Title>
       </Header>
