@@ -13,7 +13,6 @@ import Price from "./Price";
 // -> 만약 path프로퍼티와 현재 페이지의 URL이 일치할 경우 해당 path의 match객체를 반환하고 일치하지 않을 경우 null을 반환한다.
 // -> 만약 아무 인자도 넘겨주지 않으면 제일 가까운 부모 컴포넌트의 match값을 리턴한다.
 
-
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
@@ -152,7 +151,6 @@ interface PriceData {
   };
 }
 
-
 function Coin() { 
   const { coinId } = useParams<RouteParams>(); 
   // useLocation은 현재 URL의 정보를 가져온다.(route state를 가져올 수 있음)
@@ -228,7 +226,7 @@ function Coin() {
               <Price />
             </Route>
             <Route path={`:coinId/chart`}>
-              <Chart coinId={coinId}/>
+              <Chart coinId={coinId} />
             </Route>
           </Switch>
         </>

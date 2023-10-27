@@ -2,6 +2,9 @@ import { useQuery } from 'react-query';
 import { fetchCoinHistory } from '../apis/coin';
 import ApexChart from 'react-apexcharts';
 
+import { useRecoilValue } from 'recoil';
+import { isDarkAtom } from '../atoms/theme';
+
 interface IHistorical {
   time_open: string;
   time_close: string;
@@ -22,6 +25,7 @@ function Chart({ coinId }: ChartProps) {
   () => fetchCoinHistory(coinId), { refetchInterval: 10000 }
   // refetchInterval로 10초마다 데이터를 다시 불러온다.
   );
+  const isDark = useRecoilValue(isDarkAtom);
 
   return (
     <div>
@@ -36,7 +40,7 @@ function Chart({ coinId }: ChartProps) {
           ]}
           options={{
             theme: {
-              mode: "dark",
+              mode: isDark ? "dark" : "light",
             },
             chart: {
               height: 300,

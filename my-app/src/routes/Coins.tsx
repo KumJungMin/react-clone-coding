@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "react-query";
+import { useSetRecoilState } from "recoil";
+// useSetRecoilState는 atom의 값을 변경할 수 있는 함수를 반환한다.
+import { isDarkAtom } from "../atoms/theme";
+
 import { Helmet } from "react-helmet"; 
 // Helmet은 리액트 앱의 head태그를 수정할 수 있게 해주는 라이브러리
 
@@ -22,10 +26,11 @@ const Header = styled.header`
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   margin-bottom: 10px;
+  border: 1px solid #fff;
   a {
     display: flex;
     align-items: center;
@@ -70,6 +75,9 @@ function Coins() {
   // useQuery(키, 비동기함수) 형식으로 API를 호출한다.
   // 키 값은 캐시를 위한 값이다. 
   const { isLoading, data = [] } = useQuery<ICoin[]>("totalCoins", fetchCoins); 
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+  // setDarkAtom에서 인자로 이전 값을 받아서, 이전 값의 반대 값을 반환한다.
 
   return (
     <Container>
@@ -78,6 +86,7 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>코인</Title>
+        <button onClick={ toggleDarkAtom }>Toggle Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

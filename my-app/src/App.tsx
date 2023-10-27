@@ -1,7 +1,14 @@
 import Router from "./Router";
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "./theme";
+import { useRecoilValue } from "recoil";
+import  { isDarkAtom } from "./atoms/theme";
+
 import { ReactQueryDevtools } from "react-query/devtools";
 // ReactQueryDevtools는 react-query의 개발자 도구이다.
+
+
+// Recoil은 상태 관리 라이브러리이다.
 
 const GlobalStyle = createGlobalStyle`
 import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&display=swap');
@@ -68,12 +75,15 @@ table {
 `;
 
 function App() {
+  // recoil 값이 변경될 때마다 App 컴포넌트가 리렌더링된다.
+  const isDark = useRecoilValue(isDarkAtom);
+
   return (
-    <div>
+    <ThemeProvider theme={ isDark ? darkTheme : lightTheme }>
       <GlobalStyle />
       <Router />
       <ReactQueryDevtools initialIsOpen={true} />
-    </div>
+    </ThemeProvider>
   );  
 }
 
