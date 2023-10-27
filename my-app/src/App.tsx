@@ -1,4 +1,5 @@
-import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
+import ToDoList from './ToDoList';
 
 const GlobalStyle = createGlobalStyle`
 import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&display=swap');
@@ -66,10 +67,11 @@ table {
 
 function App() {
   return (
-    <>
+    <div>
       <GlobalStyle />
-    </>
-  );  
+      <ToDoList />
+    </div>
+  );
 }
 
 export default App;
