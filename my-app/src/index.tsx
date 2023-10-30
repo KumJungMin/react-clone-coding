@@ -64,7 +64,7 @@ body {
   font-weight: 300;
   font-family: 'Source Sans Pro', sans-serif;
   background-color:${(props) => props.theme.bgColor};
-  color:${(props) => props.theme.textColor};
+  color: black;
   line-height: 1.2;
 }
 a {
@@ -81,7 +81,6 @@ const root = ReactDOM.createRoot(
 const queryClient = new QueryClient();
 
 root.render(
-  <React.StrictMode>
     <RecoilRoot>
       <ThemeProvider theme={darkTheme}>
         <GlobalStyle />
@@ -90,5 +89,4 @@ root.render(
         </QueryClientProvider>
       </ThemeProvider>
     </RecoilRoot>
-  </React.StrictMode>
 );
