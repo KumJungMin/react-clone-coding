@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import { getMovies, IMoviesResult } from "../apis/movie";
 import { makeImagePath } from "../utils/format";
 import { useState } from "react";
 import { useMovies } from "../hooks/movie";
 
 const Wrapper = styled.div`
   background: black;
+  padding-bottom: 200px;
 `;
 
 const Loader = styled.div`
@@ -44,13 +44,14 @@ const Slider = styled.div`
 
 const Row = styled(motion.div)`
   display: grid;
-  gap: 10px;
+  gap: 5px;
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
   width: 100%;
 `;
 
-const Box = styled(motion.div)`
+// !! 재사용되지 않는 스타일의 타입은 <{props명: string}>으로 바로 지정해줘도 된다.
+const Box = styled(motion.div)<{ bgPhoto: string }>`
   background-color: white;
   height: 200px;
   color: red;
@@ -59,13 +60,13 @@ const Box = styled(motion.div)`
 
 const rowVariants = {
   hidden: {
-    x: window.outerWidth + 10,
+    x: window.outerWidth + 5,
   },
   visible: {
     x: 0,
   },
   exit: {
-    x: -window.outerWidth - 10,
+    x: -window.outerWidth - 5,
   },
 };
 
