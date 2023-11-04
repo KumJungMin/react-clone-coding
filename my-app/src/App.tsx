@@ -12,8 +12,9 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
+      {/* path에 array를 사용하면, 두 가지 path일 때 띄울 컴포넌트를 지정할 수 있다 */}
       <Switch>
-        <Route path="/">
+        <Route path={["/", "/movies/:moveId"]}>
           <Home />
         </Route>
         <Route path="/tv">
