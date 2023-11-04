@@ -70,10 +70,23 @@ const rowVariants = {
   },
 };
 
+const OFFSET = 6;
+
 function Home() {
   const { data, isLoading } = useMovies();
   const [index, setIndex] = useState(0);
-  const increaseIndex = () => setIndex((prev) => prev + 1);
+  const [isLeaving, setIsLeaving] = useState(false);
+
+  const increaseIndex = () => {
+    if (data) {
+      if (isLeaving) return;
+      toggleLeaving();
+      const totalMovies = data.results.length - 1;
+      const maxIndex = Math.floor(totalMovies / OFFSET) - 1;
+      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+    }
+  };
+  const toggleLeaving = () => setIsLeaving((prev) => !prev);
 
   return (
     <Wrapper>
@@ -89,7 +102,10 @@ function Home() {
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
           <Slider>
-            <AnimatePresence>
+            <AnimatePresence
+              initial={false}
+              onExitComplete={toggleLeaving}
+            >
               <Row
                 variants={rowVariants}
                 initial="hidden"
