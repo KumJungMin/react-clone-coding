@@ -1,11 +1,16 @@
 import { useQuery } from "react-query";
 import { getMovies } from "../apis/movie";
-import type { IMoviesResult } from "../apis/movie";
+import type { IMoviesResult, IMovie } from "../apis/movie";
 
-export function useMovies() {
+interface ISelectFn {
+  (data: IMoviesResult): IMovie[];
+}
+
+export function useMovies({ select }: { select?: ISelectFn }) {
   const { data, isLoading } = useQuery<IMoviesResult>(
     ["movies", "nowPlaying"],
     getMovies
   );
-  return { data, isLoading };
+  const selectedData = select && data ? select(data) : data?.results || [];
+  return { data: selectedData, isLoading };
 }

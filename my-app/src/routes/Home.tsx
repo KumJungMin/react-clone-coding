@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { makeImagePath } from "../utils/format";
 import { useState } from "react";
 import { useMovies } from "../hooks/movie";
+import type { IMoviesResult } from "../apis/movie";
 
 const Wrapper = styled.div`
   background: black;
@@ -73,15 +74,20 @@ const rowVariants = {
 const OFFSET = 6;
 
 function Home() {
-  const { data, isLoading } = useMovies();
   const [index, setIndex] = useState(0);
   const [isLeaving, setIsLeaving] = useState(false);
+
+  const slicedData = (data: IMoviesResult) => {
+    return data.results.slice(1).slice(OFFSET * index, OFFSET * index + OFFSET);
+  };
+
+  const { data, isLoading } = useMovies({ select: slicedData });
 
   const increaseIndex = () => {
     if (data) {
       if (isLeaving) return;
       toggleLeaving();
-      const totalMovies = data.results.length - 1;
+      const totalMovies = data.length - 1;
       const maxIndex = Math.floor(totalMovies / OFFSET) - 1;
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
     }
@@ -96,10 +102,10 @@ function Home() {
         <>
           <Banner
             onClick={increaseIndex}
-            bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
+            bgPhoto={makeImagePath(data[0].backdrop_path || "")}
           >
-            <Title>{data?.results[0].title}</Title>
-            <Overview>{data?.results[0].overview}</Overview>
+            <Title>{data[0].title}</Title>
+            <Overview>{data[0].overview}</Overview>
           </Banner>
           <Slider>
             <AnimatePresence
@@ -114,8 +120,11 @@ function Home() {
                 transition={{ type: "tween", duration: 1 }}
                 key={index}
               >
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <Box key={i}>{i}</Box>
+                {data.map((movie) => (
+                  <Box
+                    key={movie.id}
+                    bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
+                  />
                 ))}
               </Row>
             </AnimatePresence>
