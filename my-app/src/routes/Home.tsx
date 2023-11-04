@@ -70,9 +70,9 @@ const rowVariants = {
 };
 
 function Home() {
-  // const { data, isLoading } = useMovies();
-  // const [index, setIndex] = useState(0);
-  // const increaseIndex = () => setIndex((prev) => prev + 1);
+  const { data, isLoading } = useMovies();
+  const [index, setIndex] = useState(0);
+  const increaseIndex = () => setIndex((prev) => prev + 1);
 
   return <div style={{ backgroundColor: "whitesmoke", height: "200vh" }}></div>;
 }
