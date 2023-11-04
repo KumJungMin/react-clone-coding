@@ -74,7 +74,39 @@ function Home() {
   const [index, setIndex] = useState(0);
   const increaseIndex = () => setIndex((prev) => prev + 1);
 
-  return <div style={{ backgroundColor: "whitesmoke", height: "200vh" }}></div>;
+  return (
+    <Wrapper>
+      {isLoading ? (
+        <Loader>Loading...</Loader>
+      ) : (
+        <>
+          <Banner
+            onClick={increaseIndex}
+            bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
+          >
+            <Title>{data?.results[0].title}</Title>
+            <Overview>{data?.results[0].overview}</Overview>
+          </Banner>
+          <Slider>
+            <AnimatePresence>
+              <Row
+                variants={rowVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                transition={{ type: "tween", duration: 1 }}
+                key={index}
+              >
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <Box key={i}>{i}</Box>
+                ))}
+              </Row>
+            </AnimatePresence>
+          </Slider>
+        </>
+      )}
+    </Wrapper>
+  );
 }
 
 export default Home;
